@@ -5,14 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 using Shop.ViewModels;
 using System.Linq;
 using Shop.Data.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Shop.Controllers
 {
     public class ShopCartController : Controller
     {
-        private readonly IAllCars _carRep;
+        private readonly ICarRepository _carRep;
         private readonly ShopCart _shopCart;
-        public ShopCartController(IAllCars carRep, ShopCart shopCart)
+        public ShopCartController(ICarRepository carRep, ShopCart shopCart)
         {
             _carRep = carRep;
             _shopCart = shopCart;
@@ -29,7 +30,7 @@ namespace Shop.Controllers
             return View(obj);
 
         }
-
+        
         public RedirectToActionResult addToCart(int id )
         {
             var item = _carRep.Cars.FirstOrDefault(i => i.Id == id);

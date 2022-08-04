@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Shop.Data.Interfaces
 {
-    public interface ICarsCategory
+    public interface ICategoryRepository
     {
         IEnumerable<Category> AllCategories { get; }
     }

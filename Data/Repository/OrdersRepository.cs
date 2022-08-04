@@ -4,7 +4,7 @@ using System;
 
 namespace Shop.Data.Repository
 {
-    public class OrdersRepository : IAllOrders
+    public class OrdersRepository : IOrdersRepository
     {
         private readonly AppDBContent appDBContent;
         private readonly ShopCart shopCart;

@@ -11,9 +11,9 @@ namespace Shop.Controllers
     public class HomeController : Controller
     {
 
-        private IAllCars _carRep;
+        private ICarRepository _carRep;
 
-        public HomeController(IAllCars carRep)
+        public HomeController(ICarRepository carRep)
         {
             _carRep = carRep;
         }

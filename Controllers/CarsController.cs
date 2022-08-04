@@ -11,10 +11,10 @@ namespace Shop.Controllers
 {
     public class CarsController : Controller
     {
-        private  readonly IAllCars _allcars;
-        private readonly ICarsCategory _carsCategory;
+        private  readonly ICarRepository _allcars;
+        private readonly ICategoryRepository _carsCategory;
 
-        public CarsController(IAllCars iAllCars, ICarsCategory iCarsCategory)
+        public CarsController(ICarRepository iAllCars, ICategoryRepository iCarsCategory)
         {
             _allcars = iAllCars;
             _carsCategory = iCarsCategory;
@@ -34,8 +34,8 @@ namespace Shop.Controllers
             {
                 if (string.Equals("electro", category, StringComparison.OrdinalIgnoreCase))
                 {
-                    cars = _allcars.Cars.Where(i => i.Category.CategoryName.Equals("EVCars")).OrderBy(i => i.Id);
-                    currCategory = "EV";
+                    cars = _allcars.Cars.Where(i => i.Category.CategoryName.Equals("EVcars")).OrderBy(i => i.Id);
+                    currCategory = "EVCars";
                 }
                 else if (string.Equals("fuel", category, StringComparison.OrdinalIgnoreCase))
                 {

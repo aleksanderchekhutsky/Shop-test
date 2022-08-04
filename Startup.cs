@@ -10,6 +10,9 @@ using Shop.Data;
 using Shop.Data.Repository;
 using Microsoft.AspNetCore.Http;
 using Shop.Data.Models;
+using Microsoft.AspNetCore.Identity;
+
+using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using System;
 
@@ -35,10 +38,11 @@ namespace Shop
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDBContent>(options => options.UseSqlServer(_confstring.GetConnectionString("DefaultConnection")));
+            
            
-            services.AddTransient<IAllCars, CarRepository>();
-            services.AddTransient<ICarsCategory, CategoryRepository>();
-            services.AddTransient<IAllOrders, OrdersRepository>();
+            services.AddTransient<ICarRepository, CarRepository>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<IOrdersRepository, OrdersRepository>();
             // services.AddMvc(optins => optins.EnableEndpointRouting =false);
             services.AddRazorPages();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -46,6 +50,8 @@ namespace Shop
             services.AddSession();
             services.AddMvc((optins => optins.EnableEndpointRouting = false));
             services.AddMemoryCache();
+            
+            
             //services.AddSession();
 
         }
@@ -57,6 +63,7 @@ namespace Shop
             app.UseDeveloperExceptionPage();
             app.UseStatusCodePages();
             app.UseStaticFiles();
+            
             ///app.UseMvcWithDefaultRoute();
             app.UseStaticFiles();
             //app.UseSession();
@@ -65,13 +72,17 @@ namespace Shop
                 routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}");
                 routes.MapRoute(name: "categoryFilter", template: "Car/{action}/{category?}", defaults: new { Controller = "Car", action = "List" });
             });
+            //app.MapControllerRoute(
+            //    name: "default",
+            //    pattern:"{controller=Home}/{action=Index}/{id?}"
+            //    );
             //DBObjects.Initial(app);
             using (var scope = app.ApplicationServices.CreateScope())
             {
                 AppDBContent content = scope.ServiceProvider.GetRequiredService<AppDBContent>();
                 DBObjects.Initial(content);
             }
-
+            
 
         }
     }

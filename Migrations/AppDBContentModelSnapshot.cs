@@ -15,8 +15,8 @@ namespace Shop.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Shop.Data.Models.Car", b =>
@@ -83,22 +83,32 @@ namespace Shop.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Adress")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(35)
+                        .HasColumnType("nvarchar(35)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<DateTime>("OrderTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("Surname")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
 
@@ -160,6 +170,8 @@ namespace Shop.Migrations
                         .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Shop.Data.Models.OrderDetail", b =>
@@ -175,6 +187,10 @@ namespace Shop.Migrations
                         .HasForeignKey("OrderID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Car");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Shop.Data.Models.ShopCartItem", b =>
@@ -182,6 +198,18 @@ namespace Shop.Migrations
                     b.HasOne("Shop.Data.Models.Car", "Car")
                         .WithMany()
                         .HasForeignKey("CarId");
+
+                    b.Navigation("Car");
+                });
+
+            modelBuilder.Entity("Shop.Data.Models.Category", b =>
+                {
+                    b.Navigation("Cars");
+                });
+
+            modelBuilder.Entity("Shop.Data.Models.Order", b =>
+                {
+                    b.Navigation("OrdeDetails");
                 });
 #pragma warning restore 612, 618
         }

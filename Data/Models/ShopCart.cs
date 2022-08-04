@@ -17,6 +17,9 @@ namespace Shop.Data.Models
         }
         //public int Id { get; set; }
         public string ShopCartId { get; set; }
+        /// damateba
+        //public int Money { get; set; }
+        /// damateba 
         public List<ShopCartItem> ListShopItems { get; set; }
 
         //public static ShopCart GetCart(IServiceProvider services)

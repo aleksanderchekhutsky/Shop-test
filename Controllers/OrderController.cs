@@ -1,24 +1,31 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Shop.Data.Interfaces;
 using Shop.Data.Models;
+
 
 namespace Shop.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly IAllOrders allOrders;
-        
+        private readonly IOrdersRepository allOrders;
+
         private readonly ShopCart shopCart;
-        public OrderController(IAllOrders allOrders, ShopCart shopCart)
+        public OrderController(IOrdersRepository allOrders, ShopCart shopCart)
         {
             this.allOrders = allOrders;
             this.shopCart = shopCart;
         }
+
+        [Authorize]
         public IActionResult Checkout()
         {
             return View();
         }
+        ///---
         [HttpPost]
+        
+        //[Authorize]
         public IActionResult Checkout(Order order)
         {
             shopCart.ListShopItems = shopCart.getShopItem();
@@ -28,6 +35,7 @@ namespace Shop.Controllers
             }
             if (ModelState.IsValid)
             {
+                
                 allOrders.CreateOrder(order);
                 return RedirectToAction("Complite");
             }

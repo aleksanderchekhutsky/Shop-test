@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Shop.Data.Repository
 {
-    public class CarRepository : IAllCars
+    public class CarRepository : ICarRepository
     {
         private readonly AppDBContent appDBContent;
         public CarRepository(AppDBContent appDbContent)

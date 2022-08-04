@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Shop.Migrations
+namespace Shop.Migrations.ApplicationDb
 {
-    public partial class Initial2 : Migration
+    public partial class InitUserapp : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

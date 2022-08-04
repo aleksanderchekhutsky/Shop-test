@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Shop.Data.Repository
 {
-    public class CategoryRepository : ICarsCategory
+    public class CategoryRepository : ICategoryRepository
     {
         private readonly AppDBContent appDBContent;
         public CategoryRepository(AppDBContent appDBContent)

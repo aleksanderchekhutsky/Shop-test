@@ -36,17 +36,17 @@ namespace Shop.Data
                         Available = true,
                         Category = Categories["EVCars"]
                     },
-                    new Car
-                    {
-                        Name = "Ford Mustang",
-                        ShortDesc = "shortdesc2",
-                        LongDesc = "long descripprtion2",
-                        Img = "/img/mustang.jpg",
-                        Price = 60000,
-                        IsFavourite = false,
-                        Available = true,
-                        Category = Categories["Classic cars"]
-                    },
+                    //new Car
+                    //{
+                    //    Name = "Ford Mustang",
+                    //    ShortDesc = "shortdesc2",
+                    //    LongDesc = "long descripprtion2",
+                    //    Img = "/img/mustang.jpg",
+                    //    Price = 60000,
+                    //    IsFavourite = false,
+                    //    Available = true,
+                    //    Category = Categories["Classic cars"]
+                    //},
                     new Car
                     {
                         Name = "BMW m*",

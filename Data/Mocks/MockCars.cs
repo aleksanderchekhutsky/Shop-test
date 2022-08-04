@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace Shop.Data.Mocks
 {
-    public class MockCars : IAllCars
+    public class MockCars : ICarRepository
     {
-        private readonly ICarsCategory _CategoryCars = new MockCategory();
+        private readonly ICategoryRepository _CategoryCars = new MockCategory();
         public IEnumerable<Car> Cars
         {
             get
@@ -36,17 +36,17 @@ namespace Shop.Data.Mocks
                         Available = true,
                         Category = _CategoryCars.AllCategories.First()
                     },
-                    new Car
-                    {
-                        Name = "BMW m*",
-                        ShortDesc ="shortdesc2",
-                        LongDesc ="long descripprtion2",
-                        Img ="/img/bmw.jpg",
-                        Price = 8000,
-                        IsFavourite = true,
-                        Available = true,
-                        Category = _CategoryCars.AllCategories.First()
-                    }
+                    //new Car
+                    //{
+                    //    Name = "BMW m*",
+                    //    ShortDesc ="shortdesc2",
+                    //    LongDesc ="long descripprtion2",
+                    //    Img ="/img/bmw.jpg",
+                    //    Price = 8000,
+                    //    IsFavourite = true,
+                    //    Available = true,
+                    //    Category = _CategoryCars.AllCategories.First()
+                    //}
 
                 };
                 

@@ -1,7 +1,7 @@
 ﻿using Shop.Data.Models;
 namespace Shop.Data.Interfaces
 {
-    public interface IAllOrders
+    public interface IOrdersRepository
     {
         void CreateOrder(Order order);
     }
