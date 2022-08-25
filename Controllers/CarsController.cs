@@ -18,7 +18,7 @@ namespace Shop.Controllers
         {
             _allcars = iAllCars;
             _carsCategory = iCarsCategory;
-        }               //constructor
+        }               
         [Route("Cars/List")]
         [Route("Cars/List/{category}")]
         public ViewResult List(string category)
@@ -34,15 +34,20 @@ namespace Shop.Controllers
             {
                 if (string.Equals("electro", category, StringComparison.OrdinalIgnoreCase))
                 {
-                    cars = _allcars.Cars.Where(i => i.Category.CategoryName.Equals("EVcars")).OrderBy(i => i.Id);
+                    //GET electric cars
+                   
+                    cars = _allcars.Cars.Where(i => i.CategoryID == 2);
+                        
                     currCategory = "EVCars";
                 }
                 else if (string.Equals("fuel", category, StringComparison.OrdinalIgnoreCase))
                 {
-                    cars = _allcars.Cars.Where(i => i.Category.CategoryName.Equals("Classic cars")).OrderBy(i => i.Id);
+                    // GET Fuel cars
+                    cars = _allcars.Cars.Where(i => i.CategoryID == 1);
+                    
                     currCategory = "Classic Cars";
                 }
-                //currCategory = _category;
+               
             }
             var carObj = new CarsListViewModel
             {

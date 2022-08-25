@@ -16,6 +16,11 @@ namespace Shop.Areas.Identity.Data
             : base(options)
         {
         }
+        public ApplicationDbContext()
+        {
+                
+        }
+        public DbSet<ShopUser> ShopUser { get; set; }  //addd for deposit
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -32,8 +37,10 @@ public class ShopUserEntityConfiguration : IEntityTypeConfiguration<ShopUser>
 {
     public void Configure(EntityTypeBuilder<ShopUser> builder)
     {
+
         builder.Property(u => u.FirstName).HasMaxLength(255);
         builder.Property(u => u.LastName).HasMaxLength(255);
+        builder.Property(u=> u.Id).HasMaxLength(255);
 
     }
 

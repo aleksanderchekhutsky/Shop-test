@@ -92,8 +92,8 @@ namespace Shop.Areas.Identity.Pages.Account
                     //    return Redirect(returnUrl);
                     //}
                     _logger.LogInformation("User logged in.");
-                   // return LocalRedirect(returnUrl);
-                    return Redirect("~/Order/Checkout");
+                    return LocalRedirect(returnUrl);
+                    //return Redirect("~/Order/Checkout");
                 }
                 if (result.RequiresTwoFactor)
                 {

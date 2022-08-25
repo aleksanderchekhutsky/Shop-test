@@ -18,14 +18,14 @@ namespace Shop.Controllers
         }
 
         [Authorize]
+        [HttpGet]
         public IActionResult Checkout()
         {
             return View();
         }
         ///---
         [HttpPost]
-        
-        //[Authorize]
+        [Authorize]
         public IActionResult Checkout(Order order)
         {
             shopCart.ListShopItems = shopCart.getShopItem();
@@ -37,7 +37,7 @@ namespace Shop.Controllers
             {
                 
                 allOrders.CreateOrder(order);
-                return RedirectToAction("Complite");
+                return RedirectToAction("Pay","Wallet");
             }
             return View(order);
         }

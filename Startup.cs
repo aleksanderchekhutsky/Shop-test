@@ -11,10 +11,14 @@ using Shop.Data.Repository;
 using Microsoft.AspNetCore.Http;
 using Shop.Data.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.SqlClient;
 
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using System;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Shop.Areas.Identity.Data;
+using Microsoft.Extensions.Logging;
 
 namespace Shop
 { 
@@ -40,9 +44,14 @@ namespace Shop
             services.AddDbContext<AppDBContent>(options => options.UseSqlServer(_confstring.GetConnectionString("DefaultConnection")));
             
            
-            services.AddTransient<ICarRepository, CarRepository>();
-            services.AddTransient<ICategoryRepository, CategoryRepository>();
-            services.AddTransient<IOrdersRepository, OrdersRepository>();
+           
+           // services.AddTransient<ICarRepository, CarRepository>(); Entity
+            services.AddTransient<ICarRepository, DapperCarRepository>();   //dapper
+            //services.AddTransient<ICategoryRepository, CategoryRepository>();  entity
+            services.AddTransient<ICategoryRepository, DapperCategoryRepository>();
+            //services.AddTransient<IOrdersRepository, OrdersRepository>();         //<-- Entity
+            services.AddTransient<IOrdersRepository, DapperOrdersRepository>();     //<-- Dapper
+            services.AddScoped<IWalletRepository, DapperWalletRepository>();
             // services.AddMvc(optins => optins.EnableEndpointRouting =false);
             services.AddRazorPages();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -50,8 +59,11 @@ namespace Shop
             services.AddSession();
             services.AddMvc((optins => optins.EnableEndpointRouting = false));
             services.AddMemoryCache();
-            
-            
+            //services.AddSingleton<ILogger>(_ => new ("shop"));
+            //services.AddIdentity<ShopUser, IdentityRole>()
+                //.AddEntityFrameworkStores<AppDBContent>();
+
+
             //services.AddSession();
 
         }
@@ -63,7 +75,11 @@ namespace Shop
             app.UseDeveloperExceptionPage();
             app.UseStatusCodePages();
             app.UseStaticFiles();
-            
+            app.UseCookiePolicy();
+            app.UseAuthentication(); 
+            app.UseAuthorization();
+
+            //app.UseIdentity();
             ///app.UseMvcWithDefaultRoute();
             app.UseStaticFiles();
             //app.UseSession();
@@ -83,6 +99,8 @@ namespace Shop
                 DBObjects.Initial(content);
             }
             
+            //app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
+
 
         }
     }

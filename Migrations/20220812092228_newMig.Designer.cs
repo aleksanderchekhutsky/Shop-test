@@ -10,8 +10,8 @@ using Shop.Data;
 namespace Shop.Migrations
 {
     [DbContext(typeof(AppDBContent))]
-    [Migration("20220731063850_Identi")]
-    partial class Identi
+    [Migration("20220812092228_newMig")]
+    partial class newMig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -163,6 +163,54 @@ namespace Shop.Migrations
                     b.HasIndex("CarId");
 
                     b.ToTable("ShopCartItem");
+                });
+
+            modelBuilder.Entity("Shop.Data.Models.Wallet", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreateOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("WalletId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("costumerId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Wallet");
+                });
+
+            modelBuilder.Entity("Shop.Data.Models.WalletTransaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("createdOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("customerId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WalletTransaction");
                 });
 
             modelBuilder.Entity("Shop.Data.Models.Car", b =>
