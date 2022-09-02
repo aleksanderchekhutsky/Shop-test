@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "Transaction List";
+}
+
+   
+
+<h2>Transaction list</h2>
+
+
+<table id="transactionsHistory">
+    <thead>
+        <tr>
+            <th>Current Balance</th>
+            <th>Data</th>
+            <th>Amount</th>
+            <th>Transaction Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Current Balance</td>
+            <td>Data</td>
+            <td>Amount</td>
+            <td>Transaction Type</td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+
+
+@section Scripts{
+   
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#transactionsHistory').DataTable({
+
+                "ajax":
+                {
+
+                    url:"GetTransactions",
+                    type:"POST",
+                    datatype:"json"
+                },
+                "columns":[
+                    {"data":'curentBalance',"name":"Current Balance" },
+                    {"data":"createdOn","name":"Data"},
+                    {"data":"amount", "name":"Amount"},
+                    {"data":"operationType","name":"Transaction Type"}
+                ]
+            });
+        });
+    </script>
+    
+}

@@ -12,6 +12,6 @@ namespace Shop.Data.Models
         
         public DateTime createdOn { get; set; }
         public decimal Amount { get; set; }
-        public string OperationType { get; set; }   //addedd
+        public string OperationType { get; set; }   // wel be string
     }
 }

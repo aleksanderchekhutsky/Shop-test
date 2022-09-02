@@ -25,7 +25,7 @@ namespace Shop.Controllers
 
         //}
 
-
+        
         private AppDBContent _context;
         private UserManager<ShopUser> _userManager;
         public WalletController(UserManager<ShopUser> userManager,AppDBContent appDBContent, IWalletRepository repo)

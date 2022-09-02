@@ -10,6 +10,7 @@ using Shop.Data;
 using Shop.Data.Repository;
 using Microsoft.AspNetCore.Http;
 using Shop.Data.Models;
+using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 
@@ -19,6 +20,7 @@ using System;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Shop.Areas.Identity.Data;
 using Microsoft.Extensions.Logging;
+using AspNetCore.Unobtrusive.Ajax;
 
 namespace Shop
 { 
@@ -42,9 +44,10 @@ namespace Shop
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDBContent>(options => options.UseSqlServer(_confstring.GetConnectionString("DefaultConnection")));
-            
-           
-           
+
+
+            services.AddTransient<IWalletTransactionRepository, DapperWalletTransactionRepository>();
+
            // services.AddTransient<ICarRepository, CarRepository>(); Entity
             services.AddTransient<ICarRepository, DapperCarRepository>();   //dapper
             //services.AddTransient<ICategoryRepository, CategoryRepository>();  entity
@@ -59,9 +62,11 @@ namespace Shop
             services.AddSession();
             services.AddMvc((optins => optins.EnableEndpointRouting = false));
             services.AddMemoryCache();
+            services.AddUnobtrusiveAjax();
+            //services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
             //services.AddSingleton<ILogger>(_ => new ("shop"));
             //services.AddIdentity<ShopUser, IdentityRole>()
-                //.AddEntityFrameworkStores<AppDBContent>();
+            //.AddEntityFrameworkStores<AppDBContent>();
 
 
             //services.AddSession();
