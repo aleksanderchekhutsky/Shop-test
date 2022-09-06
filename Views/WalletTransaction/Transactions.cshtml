@@ -1,14 +1,27 @@
 ﻿
+
+
 @{
     ViewBag.Title = "Transaction List";
 }
-
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
    
 
 <h2>Transaction list</h2>
 
+ <form id ="inputForm" >
+      <label for="fname">date:</label>
+      <input type="date" id="inputDate" name="dateTime" ><br><br>
+      <input type="submit" >
+     
+</form>
+
+
+
+
 
 <table id="transactionsHistory">
+   
     <thead>
         <tr>
             <th>Current Balance</th>
@@ -30,8 +43,52 @@
 
 
 
-
 @section Scripts{
+   
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var table = 
+            $('#transactionsHistory').DataTable({
+               
+                "ajax":
+                {
+                    
+
+                    url:"GetTransactions",
+                    type:"POST",
+                    //datatype:"json",
+                    data: function(){return $('#inputForm').serialize();}
+                   
+
+                },
+                "columns":[
+                    {"data":'curentBalance',"name":"Current Balance" },
+                    {"data":"createdOn","name":"Data"},
+                    {"data":"amount", "name":"Amount"},
+                    {"data":"operationType","name":"Transaction Type"},
+                    
+                ]
+            });
+            $('#inputForm').submit(function(e){
+                e.preventDefault();
+                e.stopPropagation();
+                table.ajax.reload();
+            });
+            
+            
+        });
+        
+        
+    </script>
+    
+}
+
+
+
+
+
+
+@*@section Scripts{
    
     <script type="text/javascript">
         $(document).ready(function(){
@@ -54,4 +111,4 @@
         });
     </script>
     
-}
+}*@

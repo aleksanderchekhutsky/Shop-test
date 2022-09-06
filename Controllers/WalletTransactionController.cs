@@ -33,10 +33,11 @@ namespace Shop.Controllers
 
 
         [HttpPost]
-        public IActionResult GetTransactions()
+        public IActionResult GetTransactions(string dateTime)
         {
-
+            var date = dateTime;
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = User.Identities.ToString();
             
 
 
