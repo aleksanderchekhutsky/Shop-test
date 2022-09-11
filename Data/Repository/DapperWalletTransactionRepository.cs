@@ -1,6 +1,8 @@
 ﻿using Dapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using Shop.Areas.Identity.Data;
 using Shop.Data.Interfaces;
 using Shop.Data.Models;
 using System;
@@ -12,26 +14,26 @@ namespace Shop.Data.Repository
 {
     public class DapperWalletTransactionRepository : IWalletTransactionRepository
     {
+       
         private string _deffaultConnction;
         public DapperWalletTransactionRepository(IConfiguration configuration)
         {
             _deffaultConnction = configuration.GetConnectionString("ApplicationDbContextConnection");
         }
-        public List<WalletTransaction> GetAllTransaction(string userId)
+        public List<WalletTransaction> GetAllTransaction(string userId, DateTime time)
         {
             //Get: Return All Transaction List Without Parameters  [HttpGet]
             using (IDbConnection db = new SqlConnection(_deffaultConnction))
             {
                 DynamicParameters param = new DynamicParameters();
                 param.Add("userId", userId);
+                param.Add("time", time);
                 var trans = db.Query<WalletTransaction>("GetAllTransaction", param, commandType: CommandType.StoredProcedure);
 
                 //return db.ExecuteScalar<WalletTransaction>("GetAllTransaction", param, commandType: CommandType.StoredProcedure);
                 return trans.AsList();
 
-            }
-                
-           
+            }    
         }
         public IEnumerable<WalletTransaction> GetTransaction(DateTime time, string userId, string OperationType)
         {

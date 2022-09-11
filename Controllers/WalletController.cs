@@ -3,15 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-//using System.Web.Mvc;
-using Shop.Data.Models;
+
 using Shop.Data;
 using Shop.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Shop.Data.Interfaces;
-//using Shop.Data.Models.
+using System.IdentityModel.Tokens.Jwt;
+
 
 namespace Shop.Controllers
 {
@@ -19,20 +19,20 @@ namespace Shop.Controllers
     public class WalletController : Controller
     {
         IWalletRepository _walletRepository;
-        //public WalletController(IWalletRepository repo)
-        //{
-        //    _walletRepository = repo;
-
-        //}
+        IPayRepository _payRepository;
+        
 
         
         private AppDBContent _context;
-        private UserManager<ShopUser> _userManager;
-        public WalletController(UserManager<ShopUser> userManager,AppDBContent appDBContent, IWalletRepository repo)
+        
+
+        public WalletController(AppDBContent appDBContent, IWalletRepository repo, IPayRepository payRepository)
         {
-            _userManager = userManager;
+           
             _context = appDBContent;
             _walletRepository = repo;
+            _payRepository = payRepository;
+           
            
         }
         public ActionResult Deposit(int costumerId)
@@ -41,60 +41,39 @@ namespace Shop.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Deposit( IdentityUser user, int balance)     //was indentityuser
+        public ActionResult Deposit( IdentityUser user, decimal balance)     //was indentityuser
         {
-            //    //authorizer user id 
-            //var user =  _userManager.GetUserAsync(User).Result;
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);      //Authorize user id
-            _walletRepository.Deposit( userId, balance);          
+            
+            //operation type for transaction list
+            string operationType = "Deposit";
+            var costumerIdList = _walletRepository.GetWallets(); // costumerId  list in wallet table
+      
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); //user id
+            decimal userBalance = _payRepository.GetUserBalance(userId); // get User Current Balance
+            decimal newBalance = userBalance + balance; // user New Balance
+
+            if (!costumerIdList.Contains(userId))
+            {
+                //if user have not wallet
+                //creating wallet
+                _walletRepository.CreateWallet(userId, newBalance);
+
+                //add transaction in transaction list 
+                _walletRepository.WithDraw(userId, balance, operationType, newBalance);
+
+            }
+            else
+            {
+                //update crrent Wallet
+                _walletRepository.UpdateWallet(newBalance, userId, operationType);
+
+                //add Transaction in transaction list 
+                _walletRepository.WithDraw(userId, balance, operationType, newBalance);
+
+            }
+
+            
             return RedirectToAction("Index","Home");          
         }
-        
-        public ActionResult WithDraw(int costumerId)
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult WithDraw(IdentityUser user, int amount)
-        {
-            string opType = "Pay";
-
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            _walletRepository.WithDraw( userId, amount, opType);
-            
-
-
-            return RedirectToAction("Index", "Home");
-
-        }
-
-        // Get: Wallet/Pay
-        public ActionResult Pay(int costumerId)
-        {
-            return RedirectToAction("Pay");
-        }
-        //Post: Wallet/Pay 
-        [HttpGet]
-        public ActionResult Pay(OrderDetail order)
-        {
-            //if (ModelState.IsValid)
-            //{
-            //    var user = _userManager.GetUserAsync(User).Result;
-            //    var costumer = _context.Wallet.SingleOrDefault(c => c.costumerId == user.Id);
-                
-            //    if (order.Price < costumer.Balance)
-            //    {
-            //        costumer.Balance -= order.Price;
-            //        _context.SaveChanges ();
-            //        return View("Complite");
-            //    }
-            //    return View();
-                    
-            //}
-            return View("BalanceError");
-
-        }
-
-
     }
 }

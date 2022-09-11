@@ -33,27 +33,27 @@
                         <a class="nav-link" asp-controller ="Home" asp-action ="Index">Home</a>
                     </li>
                     <li class="nav-item">
-                            <a class="nav-link" href="/Cars/List">All Cars</a>
-                        </li>
+                        <a class="nav-link" href="/Cars/List">All Cars</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Cars/List/electro">All electro</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Cars/List/fuel">All fuel</a>
+                    </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/Cars/List/electro">All electro</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/Cars/List/fuel">All fuel</a>
-                        </li>
-                         <li class="nav-item">
-                            <a class="nav-link" href="Wallet/Deposit">Deposit</a>
-                        </li>
-                       @* <li class=nav-item>
-                            <a class="nav-link"><partial name="_LoginPartial"/></a>
-                        </li>*@
-                        <li class="nav-item margin-right">
-                            <a class="nav-link margin-right" href="/ShopCart" tabindex="-1" aria-disabled="true"> Cart</a>
-                            <i class="bi bi-cart"></i>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="WalletTransaction/Transactions">History</a>
-                        </li>
+                        <a class="nav-link" asp-controller="Wallet" asp-action="Deposit">Deposit</a>
+                    </li>
+                    @* <li class=nav-item>
+                        <a class="nav-link"><partial name="_LoginPartial"/></a>
+                    </li>*@
+                    <li class="nav-item margin-right">
+                        <a class="nav-link margin-right" href="/ShopCart" tabindex="-1" aria-disabled="true"> Cart</a>
+                        <i class="bi bi-cart"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller = "WalletTransaction" asp-action="Transactions">History</a>
+                    </li>
                 </ul> 
             </div>
             <partial name="_LoginPartial" />

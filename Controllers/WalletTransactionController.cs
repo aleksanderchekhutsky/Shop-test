@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Security.Claims;
+
 using Shop.Data.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Shop.Data.Models;
@@ -9,6 +9,11 @@ using System.Collections.Generic;
 using System.Web.WebPages.Html;
 using Newtonsoft.Json;
 using Shop.Areas.Identity.Data;
+using System.Globalization;
+using System.Threading.Tasks;
+using System.Security.Claims;
+//using Microsoft.AspNetCore.Identity;
+//using Microsoft.AspNetCore.Identity;
 //using System.Web.Mvc.JsonRequestBehavior;
 
 namespace Shop.Controllers
@@ -16,14 +21,18 @@ namespace Shop.Controllers
     [Authorize]
     public class WalletTransactionController : Controller
     {
+
+        
         IWalletTransactionRepository _repo;
         
+
 
         public WalletTransactionController( IWalletTransactionRepository repo)
         {
             _repo = repo;
            
         }
+        
             
         [HttpGet]
         public ActionResult Transactions()
@@ -35,18 +44,14 @@ namespace Shop.Controllers
         [HttpPost]
         public IActionResult GetTransactions(string dateTime)
         {
-            var date = dateTime;
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = User.Identities.ToString();
+            DateTime searchTime = dateTime == null ? DateTime.Now : DateTime.Parse(dateTime);  //check datatime 
             
-
-
-
-
-
-            var result = _repo.GetAllTransaction(userId);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // user id
             
-            return Json(new { data = result });
+            var result = _repo.GetAllTransaction(userId, searchTime);
+           
+            
+            return Json(new { data = result});
 
         }
 
@@ -54,8 +59,8 @@ namespace Shop.Controllers
         public IActionResult TransactionListByTime(DateTime dateTime, string transactionType)
         {
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); 
-            
+             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); 
+         
 
 
             return View(_repo.GetTransaction(dateTime, userId, transactionType));

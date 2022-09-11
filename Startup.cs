@@ -45,6 +45,7 @@ namespace Shop
         {
             services.AddDbContext<AppDBContent>(options => options.UseSqlServer(_confstring.GetConnectionString("DefaultConnection")));
 
+            services.AddTransient<IPayRepository, DapperPayRepository>();
 
             services.AddTransient<IWalletTransactionRepository, DapperWalletTransactionRepository>();
 

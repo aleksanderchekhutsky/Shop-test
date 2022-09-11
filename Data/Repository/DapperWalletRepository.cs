@@ -20,51 +20,29 @@ namespace Shop.Data.Repository
         {
             _deffaultConnction = configuration.GetConnectionString("ApplicationDbContextConnection");      
         }
-        public void Deposit(string UserId ,int amount)
+        public void CreateWallet(string UserId ,decimal amount)
         {
             using (IDbConnection db = new SqlConnection(_deffaultConnction))
             {
-                List<string> idies;
-                idies = db.Query<string>("SELECT costumerId FROM Wallet").ToList();
-                string OperationType = "Deposit";
+                //creating wallet
                 DynamicParameters param = new DynamicParameters();
-                
-                if (!idies.Contains(UserId))
-                {
-                    //if user have not waleet this code Create Walllet 
                    
-                    param.Add("WalletId", UserId);  //user.Id
-                    param.Add("Balance", amount);
-                    param.Add("CreatedOn", DateTime.Now);
-                    param.Add("costumerId", UserId);
-                    db.Execute("Deposit", param, commandType: CommandType.StoredProcedure);
+                param.Add("WalletId", UserId);  //user.Id
+                param.Add("Balance", amount);
+                param.Add("CreatedOn", DateTime.Now);
+                param.Add("costumerId", UserId);
+                db.Execute("CreateWallet", param, commandType: CommandType.StoredProcedure);
 
-                }
-                else
-                {
-                    //update amount if user have wallet 
-                    //Proccedure name : UpdateWallet
-                    param.Add("Balance", Convert.ToDecimal(amount));
-                    param.Add("CreatedOn",DateTime.Now);
-                    param.Add("costumerId", UserId);
-                    db.Execute("UpdateWallet", param, commandType: CommandType.StoredProcedure);
-                };
-                WithDraw(UserId, amount, OperationType);
             }
         }
 
-        public void WithDraw(string CostumerId, int amount, string operationType)
+        public void WithDraw(string CostumerId, decimal amount, string operationType,decimal currentBalance)
         {
+            // Add transaction and Transaction in Transactions List 
             using (IDbConnection db = new SqlConnection(_deffaultConnction))
             {
-                
-                int costumerAmount = db.ExecuteScalar<int>("SELECT Balance FROM Wallet WHERE costumerId=@CostumerId", new { costumerId = CostumerId});
-                int currentBalance = costumerAmount;
-                
                 DynamicParameters param = new DynamicParameters();
-
-               
-                
+   
                 param.Add("costumerId", CostumerId);
                 param.Add("CurentBalance", currentBalance);
                 param.Add("Amount", amount);
@@ -78,6 +56,29 @@ namespace Shop.Data.Repository
         public void Pay(OrderDetail order)
         {
             throw new System.NotImplementedException();
+        }
+
+        public List<string> GetWallets()
+        {
+            //return  walet userId ies list
+            using (IDbConnection db = new SqlConnection(_deffaultConnction))
+            {
+                return db.Query<string>("SELECT costumerId FROM Wallet").ToList();
+            }     
+        }
+
+        public void UpdateWallet(decimal currentBalance, string userId, string operationType)
+        {
+            // this func update wallet if user have a wallet
+            using (IDbConnection db = new SqlConnection(_deffaultConnction))
+            {
+                DynamicParameters param = new DynamicParameters();
+                param.Add("Balance", currentBalance);
+                param.Add("costumerId", userId);
+                param.Add("OperationType", operationType);
+                db.Execute("UpdateWallet", param, commandType: CommandType.StoredProcedure);
+                
+            }
         }
     }
 }

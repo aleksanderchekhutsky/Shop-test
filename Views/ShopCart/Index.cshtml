@@ -5,8 +5,10 @@
         <div class="alert alert-warning mt-3">
             <b>Car:</b>@el.Car.Name<br/>
             <b>Price:</b>@el.Car.Price.ToString("c")
+            
         </div>
     }
     <hr />
-    <a class="btn btn-danger" asp-controller="Order" asp-action="Checkout">Pay</a>
+    <a class="btn btn-danger" asp-controller="Pay" asp-action="BuyCar" asp-route-id="@Model.shopCart.ShopCartId">Pay</a>
+    @*<a class="btn btn-danger" asp-controller="ShopCart" asp-action="Pay" asp-route-id ="@Model.shopCart.ShopCartId">Pay</a>*@
 </div>

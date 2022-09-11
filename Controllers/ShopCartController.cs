@@ -11,6 +11,7 @@ namespace Shop.Controllers
 {
     public class ShopCartController : Controller
     {
+        public int idies;
         private readonly ICarRepository _carRep;
         private readonly ShopCart _shopCart;
         public ShopCartController(ICarRepository carRep, ShopCart shopCart)
@@ -33,6 +34,8 @@ namespace Shop.Controllers
         
         public RedirectToActionResult addToCart(int id )
         {
+            //idies.Append(id);
+            idies= id;
             var item = _carRep.Cars.FirstOrDefault(i => i.Id == id);
             if(item != null)
             {
@@ -40,6 +43,13 @@ namespace Shop.Controllers
             }
             return RedirectToAction("Index");
 
+        }
+        public RedirectToActionResult Pay(int idies)
+        {
+            int car = idies;
+            //int carId = id;
+            return RedirectToAction("Pay", "BuyCar", car);
+            
         }
 
     }

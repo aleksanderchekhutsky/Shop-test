@@ -11,9 +11,11 @@ namespace Shop.Data.Interfaces
 {
     public interface IWalletRepository
     {
-        void Deposit( string UserId, int amount );          //identityUser
+        void CreateWallet( string UserId, decimal amount );          //identityUser
         void Pay(OrderDetail order);
-        void WithDraw(string UserId, int amount, string operationType);
+        void WithDraw(string UserId, decimal amount, string operationType, decimal currentBalance);
+        List<string> GetWallets();
+        void UpdateWallet(decimal currentBalance, string userId, string operationType);
 
     }
 }
