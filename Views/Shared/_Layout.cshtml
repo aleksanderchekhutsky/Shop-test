@@ -1,5 +1,7 @@
 ﻿@using System.Web.Optimization
 @using System.Web
+
+
 <!DOCTYPE html>
 
 <html>
@@ -54,6 +56,15 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-controller = "WalletTransaction" asp-action="Transactions">History</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller = "CreditCard" asp-action="SetCreditCard">Add Card</a>
+                    </li>
+                    <li class="nav-item">
+                        <span class="nav-link margin-right" id="balance">"{0:c}"</span>
+                    </li>
+                    
+                    
+                    
                 </ul> 
             </div>
             <partial name="_LoginPartial" />
@@ -77,5 +88,28 @@
     
     
     @await RenderSectionAsync("Scripts", required: false)
+
+    
 </body>
 </html>
+
+    <script type ="text/javascript">
+        $(document).ready(function(){
+            console.log("document redy");
+            function f(){
+                console.log("dshjgfhds");
+                $.ajax({
+                  url: "Home/GetBalance", 
+                  success: function(result){
+                      console.log(result);
+                    $("#balance").html('Balance:'+ result.balance +'$');
+                 }});
+            };
+            setInterval(f(),1000);
+        });
+
+        
+        
+    </script>
+
+

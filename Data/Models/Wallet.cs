@@ -16,6 +16,7 @@ namespace Shop.Data.Models
         [Required]
         [DataType(DataType.Currency)]
         [Column(TypeName = "decimal(18,2)")]
+       // [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:c}")]
         public decimal Balance { get; set; } //Amount
         [DataType(DataType.DateTime)]
         public DateTime CreateOn { get; set; }
