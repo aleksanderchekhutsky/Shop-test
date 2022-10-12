@@ -18,9 +18,12 @@ namespace Shop.Controllers
         public IActionResult SetCreditCard(CreditCard creditCard)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            int cvvToInt = int.Parse(creditCard.CVV);   //Convert string CVV to Int for database
 
+            
+            //Saving Card in Database  
             _creditCardRepository.SaveCard(cardNumber: creditCard.CardNumber, expiration: creditCard.Expiration,
-                                            cvv:creditCard.CVV, cardName: creditCard.CardName,userId);
+                                            cvv:cvvToInt, cardName: creditCard.CardName,userId);
 
             return RedirectToAction("Index","Home");
         }

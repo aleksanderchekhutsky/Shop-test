@@ -13,9 +13,10 @@ namespace Shop.Data.Interfaces
     {
         void CreateWallet( string UserId, decimal amount );          //identityUser
         void Pay(OrderDetail order);
-        void WithDraw(string UserId, decimal amount, string operationType, decimal currentBalance);
+        void WithDraw(string CostumerId, decimal amount);
         List<string> GetWallets();
-        void UpdateWallet(decimal currentBalance, string userId, string operationType);
+        int UpdateWallet(string costumerId, string operationType, string pyamentStatus, decimal amount, string transactionId);
+        decimal GetBalance(string userId);
 
     }
 }

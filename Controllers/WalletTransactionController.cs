@@ -44,6 +44,7 @@ namespace Shop.Controllers
         [HttpPost]
         public IActionResult GetTransactions(string dateTime)
         {
+
             DateTime searchTime = dateTime == null ? DateTime.Now : DateTime.Parse(dateTime);  //check datatime 
             
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // user id
@@ -53,7 +54,7 @@ namespace Shop.Controllers
             
             return Json(new { data = result});
 
-        }
+          }
 
         [HttpPost]
         public IActionResult TransactionListByTime(DateTime dateTime, string transactionType)
@@ -65,6 +66,10 @@ namespace Shop.Controllers
 
             return View(_repo.GetTransaction(dateTime, userId, transactionType));
 
+        }
+        public void AddStatus(string status)
+        {
+            
         }
         
     }

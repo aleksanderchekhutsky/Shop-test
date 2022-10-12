@@ -29,11 +29,14 @@ namespace Shop.Controllers
             };
             return View(homeCars);
         }
-        
+        //Return  User balance In Nav Bar (Layot)
         public IActionResult GetBalance()
         {
+            //User Id 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //Get user  Balance 
             var balance = _payRepository.GetUserBalance(userId);
+            //return User balance In Json
             return Json(new {balance = balance });
         }
 

@@ -55,6 +55,8 @@ namespace Shop.Data.Repository
                 param.Add("costumerId", userId);
                 param.Add("Balance", carPrice);
                 param.Add("OperationType", OperationType);
+                param.Add("paymentStatus", "Submit");
+
                 db.Execute("UpdateWallet", param, commandType: CommandType.StoredProcedure);
 
             }

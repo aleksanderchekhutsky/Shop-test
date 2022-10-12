@@ -94,6 +94,7 @@ namespace Shop
             {
                 routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}");
                 routes.MapRoute(name: "categoryFilter", template: "Car/{action}/{category?}", defaults: new { Controller = "Car", action = "List" });
+               
             });
             //app.MapControllerRoute(
             //    name: "default",

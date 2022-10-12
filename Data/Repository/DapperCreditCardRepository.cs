@@ -16,7 +16,7 @@ namespace Shop.Data.Repository
 
         }
 
-        public void SaveCard(int cardNumber, string expiration, int cvv, string cardName, string userId)
+        public void SaveCard(string cardNumber, string expiration, int cvv, string cardName, string userId)
         {
             // SAVING USER CARD INTO CreditCard Table
             using (IDbConnection db = new SqlConnection(_deffaultConnection))

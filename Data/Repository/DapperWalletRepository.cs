@@ -36,20 +36,19 @@ namespace Shop.Data.Repository
             }
         }
 
-        public void WithDraw(string CostumerId, decimal amount, string operationType,decimal currentBalance)
+        public void WithDraw(string CostumerId,decimal amount)
         {
-            // Add transaction and Transaction in Transactions List 
+            // - balance 
             using (IDbConnection db = new SqlConnection(_deffaultConnction))
             {
                 DynamicParameters param = new DynamicParameters();
    
                 param.Add("costumerId", CostumerId);
-                param.Add("CurentBalance", currentBalance);
-                param.Add("Amount", amount);
-                param.Add("createdOn", DateTime.Now);
-                param.Add("OperationType", operationType);
+                param.Add("amount", amount);
                 db.Execute("WithDraw", param, commandType: CommandType.StoredProcedure);
-                
+                param.Add("ReturnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
+                var val = param.Get<int>("ReturnValue");
+                //return val;
             }
         }
 
@@ -67,17 +66,46 @@ namespace Shop.Data.Repository
             }     
         }
 
-        public void UpdateWallet(decimal currentBalance, string userId, string operationType)
+        //public void UpdateWallet(decimal currentBalance, string userId, string operationType)
+        //{
+        //    // this func update wallet if user have a wallet
+        //    using (IDbConnection db = new SqlConnection(_deffaultConnction))
+        //    {
+        //        DynamicParameters param = new DynamicParameters();
+        //        param.Add("Balance", currentBalance);
+        //        param.Add("costumerId", userId);
+        //        param.Add("OperationType", operationType);
+        //        db.Execute("UpdateWallet", param, commandType: CommandType.StoredProcedure);
+                
+        //    }
+        //}
+
+        public decimal GetBalance(string userId)
         {
-            // this func update wallet if user have a wallet
             using (IDbConnection db = new SqlConnection(_deffaultConnction))
             {
                 DynamicParameters param = new DynamicParameters();
-                param.Add("Balance", currentBalance);
-                param.Add("costumerId", userId);
-                param.Add("OperationType", operationType);
+                param.Add("UserId", userId);
+                return db.ExecuteScalar<decimal>("GetBalance", param, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public int UpdateWallet(string costumerId, string operationType, string pyamentStatus, decimal amount, string transactionId)
+        {
+            using (IDbConnection db = new SqlConnection(_deffaultConnction))
+            {
+                DynamicParameters param = new DynamicParameters();
+                param.Add("costumerId", costumerId);
+                param.Add("operationType", operationType);
+                param.Add("paymentStatus", pyamentStatus);
+                param.Add("amount", amount );
+                param.Add("transactionId", transactionId);
+                param.Add("ReturnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
                 db.Execute("UpdateWallet", param, commandType: CommandType.StoredProcedure);
-                
+                //param.Add("ReturnValue", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                var val = param.Get<int>("ReturnValue");
+                return val;
+
             }
         }
     }

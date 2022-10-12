@@ -9,13 +9,15 @@ namespace Shop.Data.Models
         [Display(Name = "Enter Card Number")]
         //[MaxLength(16), MinLength(16)]
         [Required(ErrorMessage = "Card Number Error")]
-        public int CardNumber { get; set; }
+        [MinLength(16), MaxLength(16)]
+        public string CardNumber { get; set; }
         [Required(ErrorMessage = "Card Number expiration")]
         public string Expiration { get; set; }
         [Display(Name = "Enter Cvv")]
-        //[MaxLength(4), MinLength(4)]
+        [MaxLength(4), MinLength(4)]
         [Required(ErrorMessage = "Card Number Error")]
-        public int CVV { get; set; }
+        
+        public string CVV { get; set; }
         [Display(Name = "Enter Card Name")]
         [StringLength(25)]
         [Required(ErrorMessage = "Card Name Error")]

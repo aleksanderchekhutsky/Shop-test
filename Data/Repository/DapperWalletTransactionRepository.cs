@@ -20,6 +20,40 @@ namespace Shop.Data.Repository
         {
             _deffaultConnction = configuration.GetConnectionString("ApplicationDbContextConnection");
         }
+
+        public void AddStatus(string status)
+        {
+            using (IDbConnection db = new SqlConnection(_deffaultConnction))
+            {
+                
+            }
+        }
+
+        public Guid CreatTransaction(WalletTransaction transaction)
+        {
+            //add transaction withot status
+            using (IDbConnection db = new SqlConnection(_deffaultConnction))
+            {
+                var ccreatedOn = transaction.createdOn;
+                var transactionId = transaction.TransactionId;
+                var amount = transaction.Amount;
+                string status= transaction.Status;
+                DateTime time = DateTime.Now;
+                DynamicParameters param = new DynamicParameters();
+                param.Add("createdOn",DateTime.Now);
+                param.Add("Status", status);
+                param.Add("Amount",amount);
+                param.Add("TransactionId",dbType:DbType.Guid,direction: ParameterDirection.Output);
+                param.Add("ReturnValue",dbType:DbType.Int32,direction: ParameterDirection.ReturnValue);
+                
+                db.Execute("Fake", param, commandType: CommandType.StoredProcedure);
+                var ret = param.Get<int>("ReturnValue"); 
+
+                return param.Get<Guid>("TransactionId");
+
+            }
+        }
+
         public List<WalletTransaction> GetAllTransaction(string userId, DateTime time)
         {
             //Get: Return All Transaction List Without Parameters  [HttpGet]
@@ -28,6 +62,7 @@ namespace Shop.Data.Repository
                 DynamicParameters param = new DynamicParameters();
                 param.Add("userId", userId);
                 param.Add("time", time);
+                //param.Add("returnvalue",);
                 var trans = db.Query<WalletTransaction>("GetAllTransaction", param, commandType: CommandType.StoredProcedure);
 
                 //return db.ExecuteScalar<WalletTransaction>("GetAllTransaction", param, commandType: CommandType.StoredProcedure);
@@ -63,6 +98,30 @@ namespace Shop.Data.Repository
 
             }
             
+        }
+
+        public void SetStatus( string userId, string status)
+        {
+            using (IDbConnection db = new SqlConnection(_deffaultConnction))
+            {
+                db.Execute("UPDATE WalletTransaction SET Status=@status ORDER BY createdOn DESC LIMIT 1 WHERE userId=@userId");
+            }
+
+
+        }
+
+        public void UpdateTransaction(string transactionId, string userId, string status, decimal amount, decimal currentBalance)
+        {
+            using (IDbConnection db = new SqlConnection(_deffaultConnction))
+            {
+                DynamicParameters param = new DynamicParameters();
+                param.Add("TransactionId", transactionId);
+                param.Add("UserId", userId);
+                param.Add("Status", status);
+                param.Add("Amount", amount);
+                param.Add("CurrentBalance",currentBalance);
+                db.Execute("UpdateTransaction", param, commandType: CommandType.StoredProcedure);
+            }
         }
     }
 }

@@ -59,14 +59,19 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-controller = "CreditCard" asp-action="SetCreditCard">Add Card</a>
                     </li>
+
                     <li class="nav-item">
-                        <span class="nav-link margin-right" id="balance">"{0:c}"</span>
-                    </li>
-                    
-                    
-                    
-                </ul> 
+                        <a class="nav-link" asp-controller = "Wallet" asp-action="WithDraw">Withdraw</a>
+                    </li>  
             </div>
+           
+                <ul class="navbar-nav text-right">
+                    <li class="nav-item active">
+                        <a class="nav-item text-light" id="balance"></a>
+                    </li>
+                </ul>
+
+            
             <partial name="_LoginPartial" />
         </nav>
     </header>
@@ -93,7 +98,7 @@
 </body>
 </html>
 
-    <script type ="text/javascript">
+   @* <script type ="text/javascript">
         $(document).ready(function(){
             console.log("document redy");
             function f(){
@@ -102,14 +107,31 @@
                   url: "Home/GetBalance", 
                   success: function(result){
                       console.log(result);
-                    $("#balance").html('Balance:'+ result.balance +'$');
+                    $("#balance").html( result.balance +'$');
                  }});
             };
             setInterval(f(),1000);
         });
 
-        
-        
+    </script>*@
+    <script type="text/javascript">
+        $(document).ready(function(){
+            function f(){                
+                $.ajax("Home/GetBalance")
+                    .done(function(result){
+                        console.log(result);
+                        $('#balance').html(result.balance + "$")
+                    })
+                    .fail(function(){
+                        alter("Balance error");
+                    })
+                    .always(function(){
+                        console.log("complite");
+                    });
+            };
+            setInterval(f(),1000);
+        });
     </script>
+    
 
 

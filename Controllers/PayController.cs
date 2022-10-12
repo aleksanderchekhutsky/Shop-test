@@ -42,7 +42,7 @@ namespace Shop.Controllers
                 // If User havve money
 
                 // WITHDRAW: Add transaction and Transaction in Transactions List 
-                _walletRepository.WithDraw(userId, totalPrice,operationType, newBalance);
+                //_walletRepository.WithDraw(userId, totalPrice,operationType, newBalance);
 
                 //Pay functional 
                 _payRepository.Pay(userId, totalPrice, operationType);
